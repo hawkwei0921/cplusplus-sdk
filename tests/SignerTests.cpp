@@ -98,23 +98,22 @@ TEST(BinanceSigner, BuildSend) {
 
     auto input = order.add_inputs();
     input->set_address(fromKeyhash.data(), fromKeyhash.size());
-    auto inputCoin = input->add_coins();
-    inputCoin->set_denom("BNB");
-    inputCoin->set_amount(1'001'000'000);
 
+    auto inputCoin = input->add_coins();
+    inputCoin->set_denom("BOB");
+    inputCoin->set_amount(1234000000);
     auto output = order.add_outputs();
     output->set_address(toKeyhash.data(), toKeyhash.size());
     auto outputCoin = output->add_coins();
-    outputCoin->set_denom("BNB");
-    outputCoin->set_amount(1'001'000'000);
-
+    outputCoin->set_denom("JON");
+    outputCoin->set_amount(567800000);
     auto signer = Binance::Signer(order);
     signer.chainId = "chain-bnb";
     signer.accountNumber = 19;
     signer.sequence = 23;
     signer.memo = "test";
     signer.source = 1;
-    signer.privateKey = parse_hex("95949f757db1f57ca94a5dff23314accbe7abee89597bf6a3c7382c84d7eb832");
+    signer.privateKey = parse_hex("141fd0dd393e29c29403f3571ab1246ba580a0655d157d7567d5b78b8ae26b13");
 
     auto result = signer.build();
 
@@ -134,6 +133,8 @@ TEST(BinanceSigner, BuildSend) {
         "1a04""74657374"
         "2001"
     );
+
+    // ASSERT_EQ(hex(result.begin(), result.end()), "cc01f0625dee0a4e2a2c87fa0a230a1440c2979694bbc961023d1d27be6fc4d21a9febe6120b0a03424f421080b1b5cc0412230a1488b37d5e05f3699e2a1406468e5d87cb9dcceb95120b0a034a4f4e10c0e1df8e02126e0a26eb5ae9872102ab9a99bba3c6e7652b09ab42f4c93cd472961abd28ee942d03a87f0bb2f0a25f1240a76e72ee4f7882e9b548943f5cf7dd3b90ebc317b47144fa8bdafe18b4e06ad26909f6f116454b20a1f4884bf17657c41f10cd2056c6048277ced05debcc8bfe181320171a04746573742001");
 }
 
 } // namespace
